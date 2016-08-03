@@ -13,6 +13,7 @@ class CRobot(object):
         self.leftSensor = Digital(leftPin,self.R)
         self.rightSensor = Digital(rightPin,self.R)
         self.arm = Arm(armBoard,armNumber,self.R)
+        self.R.zone
 
 
 class Wheels(object):
@@ -44,8 +45,8 @@ class Wheels(object):
 class Motion(Wheels):
 
     driveConstant = 0.6
-    drivePower = 50
-    turnConstant = 0.0075
+    drivePower = 25
+    turnConstant = 0.015
 
     def forward(self,metres):
         self._forward(metres * self.driveConstant,self.drivePower)
@@ -79,6 +80,7 @@ class Vision(object):
 
 
     def check_location(self):
+
         self.update()
         wall_markers = self.get_wall_markers()
         marker_positions = [[0,1],[0,2],[0,3],[0,4],[0,5],[0,6],[0,7],\
@@ -144,15 +146,25 @@ class Servo(object):
 class Arm(Servo):
 
     def open(self):
-        self.setPosition(0)  # Needs changing
+        self.setpos(80)  # Needs changing
 
     def close(self):
-        self.setPosition(100)  # Needs changing
+        self.setpos(20)  # Needs changing
 
 
-R = CRobot(1, 0, 0, 1, 2, 3, 4)
+R = CRobot(0, 1, 10, 10, 10, 0, 0)
 
-R.motion.forward(10)
+
+R.arm.close()
+R.arm.open()
+
+
+
+
+
+#R.motion.forward(3)
+#R.motion.clockwise(180)
+#R.motion.forward(3)
 
 
 
