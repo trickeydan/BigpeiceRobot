@@ -1,0 +1,75 @@
+#Start
+
+# Adjust 'arm' to up position
+
+# Rotate clockwise to line up with tokens
+
+# Move to pick up initial tokens
+
+# Check light beam to see if we have picked anything up
+
+#If not, move back and reattempt. Max 3 times.
+
+# Close Arm
+
+#Rotate towards centre
+
+# Find position and tokens
+
+# Loop until x mins have passed
+	
+	# Choose nearest token and point towards it. Estimate distance
+	
+	# Move 1/2 of the distance, check again and point again if different
+	
+	# Open Arm
+	
+	# Move further until light beam hit + 40cm or twice expected distance
+	
+		# If light beam hit, close arm. Else, move back and reattempt 
+		
+	# If cubecount >= 5 or certain time exceeded
+		# Find position
+		# Calculate route to 'base'
+		# Move to 'base'
+		# Open Arm
+		# Move back 0.8 m
+		# Close arm
+		
+# After x time limit has passed
+	# Find position
+	# Calculate route to 'base'
+	# Move to 'base'
+	# Open Arm
+	# Move back 0.8 m
+	# Close arm
+	
+	#Search for poison
+	
+	# Estimate if poison is within area
+		#If it is
+			# Point towards it, Estimate distance
+	
+			# Move 1/2 of the distance, check again and point again if different
+			
+			#Open arm
+			
+			# Move further until light beam hit + 40cm or twice expected distance
+	
+				# If light beam hit, close arm. Else, move back and reattempt 
+				
+			# Close arm
+			
+			# Move forward 2.5 metres
+			
+			# Wait until timer completes
+			
+			#Open arm.
+			
+			# Move back 1m
+			
+		# Otherwise, 
+			#
+			
+	# Perform victory? dance
+	
