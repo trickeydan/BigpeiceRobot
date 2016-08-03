@@ -44,19 +44,20 @@ class Wheels(object):
 class Motion(Wheels):
 
     driveConstant = 0.6
+	drivePower = 50
     turnConstant = 0.0075
 
     def forward(self,metres):
-        self._forward(metres * self.driveConstant,100)
+        self._forward(metres * self.driveConstant,drivePower)
 
     def reverse(self,metres):
-        self._forward(metres * self.driveConstant, -100)
+        self._forward(metres * self.driveConstant, -drivePower)
 
     def clockwise(self,degrees):
-        self._clockwise(100,degrees * self.turnConstant)
+        self._clockwise(drivePower,degrees * self.turnConstant)
 
     def anticlockwise(self,degrees):
-        self._anticlockwise(100,degrees * self.turnConstant)
+        self._anticlockwise(drivePower,degrees * self.turnConstant)
 
 
 class Vision(object):
@@ -151,9 +152,8 @@ class Arm(Servo):
 
 R = CRobot(1, 0, 0, 1, 2, 3, 4)
 
-R.motion.forward(3)
+R.motion.forward(10)
 
-R.motion.clockwise(90)
 
 
 
