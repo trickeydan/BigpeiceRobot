@@ -5,7 +5,7 @@ import time, math
 
 class CRobot(object):
 
-    def __init__(self,leftWheel,rightWheel,beamPin,leftPin,rightPin,armBoard,armNumber):
+    def __init__(self, leftWheel, rightWheel, beamPin, leftPin, rightPin, armBoard, armNumber):
         self.R = Robot()
         self.motion = Motion(leftWheel,rightWheel,self.R)
         self.eyes = Vision(self.R)
@@ -13,7 +13,7 @@ class CRobot(object):
         self.leftSensor = Digital(leftPin,self.R)
         self.rightSensor = Digital(rightPin,self.R)
         self.arm = Arm(armBoard,armNumber,self.R)
-        self.R.zone
+        self.c = Control(self.R)
 
 
 class Wheels(object):
@@ -134,7 +134,7 @@ class Digital(BaseIO):
 
 class Servo(object):
 
-    def __init__(self,board,number,R):
+    def __init__(self, board, number, R):
         self.board = board
         self.number = number
         self.R = R
@@ -146,31 +146,45 @@ class Servo(object):
 class Arm(Servo):
 
     def open(self):
-        self.setpos(80)  # Needs changing
+        self.setpos(50)  # Needs changing
 
     def close(self):
-        self.setpos(20)  # Needs changing
+        self.setpos(90)  # Needs changing
+
+
+class Control(object):
+    """ Controls the timing of the loop and the loop. Also does events """
+    def __init__(self,robot):
+        print "Control Initiated"
+        self.R = robot
+
+    def sleep(self,secs):
+        start = time.time()
+        end = start + secs
+        while end > time.time():
+            self.loop()
+
+    def loop(self):
+        pass
+
+
+
+
+
+
+
+
 
 
 R = CRobot(0, 1, 10, 10, 10, 0, 0)
 
 
-R.arm.close()
-R.arm.open()
+
+while True:
+    R.arm.close()
+    R.c.sleep(5)
+    R.arm.open()
+    R.c.sleep(5)
 
 
-
-
-
-#R.motion.forward(3)
-#R.motion.clockwise(180)
-#R.motion.forward(3)
-
-
-
-
-
-
-
-
-
+# Actual Code
