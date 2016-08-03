@@ -1,8 +1,112 @@
 from sr import *
 import time, math
 
-
-
+def asc():
+    print "                                                                                                                                                                             .,                         "
+    print "                                                                                                                                                                             ;;;;`                      "
+    print "                                                                                                                                                                              ;;                        "
+    print "                                                                                                                                                                              ;;`                       "
+    print "                                                                                                                                                                        `    .  :                       "
+    print "                                                                                                                                                                        ;                               "
+    print "                                                                                                                                                                        ;                               "
+    print "                                                                                                                                                                       `;`                              "
+    print "                                                                                                                                                                       :;:                              "
+    print "                                                                                                                                                                       ;;;                              "
+    print "                                                                                                                                                                       ;;;                              "
+    print "                                                                                                                                                                  ;;;;;;;;;;;;;                         "
+    print "                                                                                                                                                                   ;;;;;;;;;;;                          "
+    print "                                                                                                                                                                    ;;;;;;;;;                           "
+    print "                                                                                                                                                                     ;;;;;;;                            "
+    print "                                                                                                                                                            `,;;'';.`.;;;;;.                            "
+    print "                                                                                                                                                       .;';;;':`     ;;;;;;:                            "
+    print "                                                                                                                                                    :';;;;;;         ;;;;;;;                            "
+    print "                                                                                                                                                 :';;;;;',           ;;: ;;;                            "
+    print "                                                                                                                                               ;;;;;;;;,            `;:   :;`      ,      `'.           "
+    print "                                                                                                                                             ;;;;;;;;;              :,     :,      ;      ,;`           "
+    print "                                                                                                                                           ,;;;;;;;;:               ,       ,   ```;```   ;;            "
+    print "                                                                                                                                          ;;;;;;;;;,                             :;;;;    ';            "
+    print "                                                                                                                                         ;;;;;;;;;:                               ;;;     ;;            "
+    print "                                                                                                                                        :;;;;;;;;;                                ;;;     ;;            "
+    print "                                                                                                                                       `:;;;;;;;:.                                : :     ;;            "
+    print "                                                                                                                                       ;:::::::::                                        .;;            "
+    print "                                                                                                                                       ::::::::::                                        :;;            "
+    print "                                                                                                                                       ::::::::::                                        ;;;            "
+    print "                                                                                                                                       ::::::::::                                        ;;;            "
+    print "                                                                                                                                       ::::::::::                                        ;;:            "
+    print "                                                                                                                                       ,:,,,,,,,,,    ,;,                                ;;:            "
+    print "                                                                                                                                        ,,,,,,,,,,     ;;                               .;;,            "
+    print "                                                                                                                                        `,,,,,,,,,,    ;;;                              :;;.            "
+    print "                                                                                                                                         .,,,,,,,,,,    ;;`                             ';;`            "
+    print "                                                                                                                                          `,,..,,,..,   ';'                             ;;;             "
+    print "                                                                                                                                            ........... `;;.                            ;;;             "
+    print "                                                                                                                                             `..........`;;;                           .;;;             "
+    print "                                                                                                                                               `.`..`...`,;;:               #@@@       :;;;             "
+    print "                      @@                 @@@                                                               @@+                                    ````````;;;`           #@@   , .     ;;;;             "
+    print "                      @@                 @@@.                                                             '@@@                                       `````,;;;```       #@@ :::,@`,    ;;;;             "
+    print "                      @@                 @@@.                                                             '@@@                                             ;;;,` `      :@ +    ++    `;;;;             "
+    print "                      @@                 @@@                                                               @@+                                             :;;;         :    ; @.     ,;;;:             "
+    print "                      @@                                                                                                                                    ;;;;        '@@.   .+: :  ;;;;:             "
+    print "                      @@                                                                                                                                    ;;;;.        @ .  .`   :  ;;;;,             "
+    print "                      @@                                                                                                                                     ;;;;       :@@+:      : `;;;;.             "
+    print "                      @@                                                                                                                                     ;;;;;      :`,+       : ,;;;;`             "
+    print "                      @@                                                                                                                                     `;;;;.     : .+      .: ;;;;;              "
+    print "                      @@     @@#                      ,@@,                   @@+               @@+                       @@@,           @@@                   ;;;;;     ; .+      `  ;;;;;              "
+    print "                      @@   @@@@@@@       @@@        ;@@@@@@; @@@      @@   @@@@@@@          #@@@@@@@       @@+         @@@@@@@@       @@@@@@@                 `;;;;;    . `+  ,  ,  .;;;;;              "
+    print "                      @@ `@@@@@@@@@      @@@       @@@@@@@@@'@@@      @@ .@@@@@@@@@        @@@@@@@@@@      @@+       +@@@@@@@@@      @@@@@@@@@                 ;;;;;:     ``  `  ,' ;:;;;;              "
+    print "                      @@ @@@  .@@@@      @@@      +@@@@`  @@@@@@      @@ @@@  ,@@@@;      ,@@@@  @@@@;     @@+      `@@@@+  @@@     @@@@, :@@@@                `;;;;;.  `  `  ; ``, ;;;;;;              "
+    print "                      @@.@.     @@@@     @@@      @@@;     @@@@@      @@,@`     @@@@      @@@     `@@@     @@+      @@@@      @    @@@#     @@@:                ;;;;::`  '+ :   :` ,;;;;;;              "
+    print "                      @@@#       @@@     @@@     #@@@       @@@@      @@@+       @@@     :@@`      +@@     @@+     @@@@            @@@       @@@                .;::;;;`;@@    ` ` ;:;;;;:              "
+    print "                      @@@        '@@+    @@@     @@@         @@@      @@@        '@@'    @@@        @@'    @@+     @@@            '@@        @@@                 ;:::::;   #::  ; .::::::,              "
+    print "                      @@@         @@@    @@@     @@@         @@@      @@@         @@@    @@+        @@@    @@+    ,@@@            @@@        +@@                 ,::::;;; @.  @   ;::::::.              "
+    print "                      @@+         @@@    @@@    ,@@,         @@@      @@'         @@@   ;@@         @@@    @@+    @@@.            @@@         @@;                 ;::::::;  @    ,:::::::`              "
+    print "                      @@          @@@    @@@    ,@@,         @@@      @@          @@@   ;@@         @@@    @@+    @@@             @@'         @@;                 ,::::::::.    `::::::::`              "
+    print "                      @@          @@@    @@@    @@@          @@@      @@          @@@   @@@@@@@@@@@@@@@    @@+    @@@             @@@@@@@@@@@@@@;                  :::::::::;. ,:::::::::               "
+    print "                      @@          @@@    @@@    @@@          @@@      @@          @@@   @@@@@@@@@@@@@@@    @@+    @@@             @@@@@@@@@@@@@@;                  ,:::::::::::::::::::::               "
+    print "                      @@          @@@    @@@    @@@          @@@      @@          @@@   @@@@@@@@@@@@@@@    @@+    @@@             @@@@@@@@@@@@@@;                   :::::::::::::::::::::               "
+    print "                      @@          @@@    @@@    @@@          @@@      @@          @@@   @@@                @@+    @@@             @@'                               :::::::::::::::::::::               "
+    print "                      @@          @@@    @@@    @@@,         @@@      @@          @@@   @@@                @@+    @@@             @@@                                ::::::::::::::::::::               "
+    print "                      @@+         @@@    @@@    ,@@,         @@@      @@'         @@@   ;@@                @@+    @@@.            @@@                                ,::::::::::::::::::,               "
+    print "                      @@+        '@@+    @@@    ,@@@         @@@      @@'        '@@'    @@+               @@+    ,@@@            @@@                                 ::::::::::::::::::.               "
+    print "                      @@@        @@@     @@@     @@@        @@@@      @@@        @@@     @@@               @@+     @@@            '@@+                                ,,:::::::::::::::,`               "
+    print "                      @@@#      +@@@     @@@     #@@@       @@@@      @@@+      #@@@     @@@#        @     @@+     @@@@       ,    @@@                                 ,,,,,,,,,,,,,,,,,`               "
+    print "                      @@@@@    `@@@      @@@     `@@@@     @@@@@      @@@@@    .@@@       @@@@      @@     @@+      @@@@     ;@    @@@@      @@                        ,,,,,,,,,,,,,,,,,                "
+    print "                      @@ @@@@@@@@@@      @@@      +@@@@@@@@@'@@@      @@ @@@@@@@@@@       @@@@@@@@@@@@     @@+      #@@@@@@@@@@     @@@@@@@@@@@                         ,,,,,,,,,,,,,,,,                "
+    print "                      @@ `@@@@@@@@       @@@       @@@@@@@@@ @@@      @@ .@@@@@@@@         @@@@@@@@@@;     @@+       +@@@@@@@@@      @@@@@@@@@@                         ,,,,,,,,,,,,,,,,                "
+    print "                      @@   @@@@@@        @@@        @@@@@@:  @@@      @@   @@@@@#           `@@@@@@@       @@+         @@@@@@@        @@@@@@@.                           ,,,,,,,,,,,,,,,                "
+    print "                                                             @@@      @@                                                                                                 .,,,,,,,,,,,,,,                "
+    print "                                                             @@@      @@                                                                                                  ,,,,,,,,,,,,,.                "
+    print "                                                             @@@      @@                                                                                                  .,,,,,,,,,,,,`                "
+    print "                                                            ,@@,      @@                                                                                                   ............                 "
+    print "                                                            @@@       @@                                                                                                   `...........                 "
+    print "                                                 `.        @@@@       @@                                                                                                    ...........                 "
+    print "                                                 `@@:     @@@@        @@                                                                                                    `..........                 "
+    print "                                                 `@@@@@@@@@@@         @@                                                                                                     .........`                 "
+    print "                                                 `@@@@@@@@@@          @@                                                                                                      ........`                 "
+    print "                                                    @@@@@@            @@                                                                                                      ``.`````                  "
+    print "                                                                                                                                                                               ```````                  "
+    print "                                                                                                                                                                               ```````                  "
+    print "                                                                                                                                                                                ``````                  "
+    print "                                                                                                                                                                                 ````                   "
+    print "                                                                                                                                                                                                        "
+    print "                                                                                                                                                                                                        "
+    print "                                                                                                                                                                                                        "
+    print "                                                                                                                                                                                                        "
+    print "                                                                                                                                                                                                        "
+    print "                                                                                                                                                                                                        "
+    print "                                                                                                                                                                                                        "
+    print "                                                                                                                                                                                                        "
+    print "                                                                                                                                                                                                        "
+    print "                     :;:;:                        `                                                                                                                                                     "
+    print "                     :   `:                      :`                                                                                                                                                     "
+    print "                     :    :.                     :`                                                                                                                                                     "
+    print "                     :    ,: ::::  :`:` :::     ::::  ::::      :::: ::,   :::  :`::,:::   ::::                                                                                                         "
+    print "                     :     : ,  :. :,  ,.  :     :`  :   :.     :  ::  :  :  ., ::  :  ,:  :  :                                                                                                         "
+    print "                     :     :    :. :   :   :     :`  :    :     :  :`  : `:   : :`  :   : :   ,.                                                                                                        "
+    print "                     :     : .:::. :   :::::     :`  :    :     :  :`  : `::::: :`  :   : :::::.                                                                                                        "
+    print "                     :    ,. :  :. :   :         :`  :    :     :  :`  : `:     :`  :   : :                                                                                                             "
+    print "                     :   `:  :  :. :   :         :`  :   ,.     :  :`  :  :     :`  :   : .:                                                                                                            "
+    print "                     :  ;:   : `:. :   ,: `:     `:  .:  :      :  :`  :  :: :  :`  :   :  :` :                                                                                                         "
+    print "                     :;:      : :. :     :,       ::   ::       :  :`  :   ,:   :`  :   :   ::    "
 class CRobot(object):
 
     def __init__(self, leftWheel, rightWheel, beamPin, leftPin, rightPin, armBoard, armNumber):
@@ -14,6 +118,8 @@ class CRobot(object):
         self.rightSensor = Digital(rightPin,self.R)
         self.arm = Arm(armBoard,armNumber,self.R)
         self.c = Control(self.R)
+
+    
 
 
 class Wheels(object):
@@ -49,15 +155,19 @@ class Motion(Wheels):
     turnConstant = 0.015
 
     def forward(self,metres):
+        log("Forward " + str(metres) + " metres")
         self._forward(metres * self.driveConstant,self.drivePower)
 
     def reverse(self,metres):
+        log("Reverse " + str(metres) + " metres")
         self._forward(metres * self.driveConstant, -1 * self.drivePower)
 
     def clockwise(self,degrees):
+        log("Clockwise " + str(degrees) + " degrees")
         self._clockwise(self.drivePower,degrees * self.turnConstant)
 
     def anticlockwise(self,degrees):
+        log("Anti-clockwise " + str(degrees) + " degrees")
         self._anticlockwise(self.drivePower,degrees * self.turnConstant)
 
 
@@ -68,9 +178,11 @@ class Vision(object):
         self.update()
 
     def update(self):
+        log("Checking Vision")
         self.markers = self.R.see()
 
     def get_wall_markers(self):
+        log("Fetching last seen wall markers")
         wall_markers = []
         for marker in self.markers:
             if marker.info.marker_type == MARKER_ARENA:
@@ -80,7 +192,7 @@ class Vision(object):
 
 
     def check_location(self):
-
+        log("Getting location")
         self.update()
         wall_markers = self.get_wall_markers()
         marker_positions = [[0,1],[0,2],[0,3],[0,4],[0,5],[0,6],[0,7],\
@@ -126,9 +238,11 @@ Analogue = BaseIO
 
 class Digital(BaseIO):
     def on(self):
+        log("Output On")
         self.R.io[0].output[self.pin].d = 1
 
     def off(self):
+        log("Output Off")
         self.R.io[0].output[self.pin].d = 0
 
 
@@ -140,15 +254,18 @@ class Servo(object):
         self.R = R
 
     def setpos(self,position):
+        log("Setting Servo " + str(self.number) + " to " + str(position))
         self.R.servos[self.board][self.number] = position
 
 
 class Arm(Servo):
 
     def open(self):
+        log("Opening Arm")
         self.setpos(50)  # Needs changing
 
     def close(self):
+        log("Closing Arm")
         self.setpos(90)  # Needs changing
 
 
@@ -159,6 +276,7 @@ class Control(object):
         self.R = robot
 
     def sleep(self,secs):
+        log("Wait: " + str(secs) + " secs")
         start = time.time()
         end = start + secs
         while end > time.time():
@@ -168,17 +286,22 @@ class Control(object):
         pass
 
 
+def log(message):
+        if verbose:
+            print "     " + message
 
 
+verbose = True
 
+print "The Bigpeice"
+print "Designed & Built by Bigpeice"
+print "Code Copyright Bigpeice 2016. All rights reserved. Do not reuse without explicit permission"
 
-
-
-
-
+print "Initialising..."
 R = CRobot(0, 1, 10, 10, 10, 0, 0)
-
-
+print "Zone: " + str(R.R.zone)
+#print "Mode: " + str(R.R.mode) #Doesn't work on simulator
+print "Started"
 
 while True:
     R.arm.close()
@@ -187,4 +310,19 @@ while True:
     R.c.sleep(5)
 
 
-# Actual Code
+# Actual Code, not yet tested. Do not execute!
+exit() # Prevent execution
+
+verbose = True
+
+
+print "The Bigpeice"
+print "Designed & Built by Bigpeice"
+print "Code Copyright Bigpeice 2016. All rights reserved. Do not reuse without explicit permission"
+
+print "Initialising..."
+R = CRobot(0, 1, 10, 10, 10, 0, 0)
+print "Zone: " + str(R.R.zone)
+#print "Mode: " + str(R.R.mode) #Doesn't work on simulator
+
+
