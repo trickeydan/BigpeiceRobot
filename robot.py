@@ -44,20 +44,20 @@ class Wheels(object):
 class Motion(Wheels):
 
     driveConstant = 0.6
-	drivePower = 50
+    drivePower = 50
     turnConstant = 0.0075
 
     def forward(self,metres):
-        self._forward(metres * self.driveConstant,drivePower)
+        self._forward(metres * self.driveConstant,self.drivePower)
 
     def reverse(self,metres):
-        self._forward(metres * self.driveConstant, -drivePower)
+        self._forward(metres * self.driveConstant, -1 * self.drivePower)
 
     def clockwise(self,degrees):
-        self._clockwise(drivePower,degrees * self.turnConstant)
+        self._clockwise(self.drivePower,degrees * self.turnConstant)
 
     def anticlockwise(self,degrees):
-        self._anticlockwise(drivePower,degrees * self.turnConstant)
+        self._anticlockwise(self.drivePower,degrees * self.turnConstant)
 
 
 class Vision(object):
