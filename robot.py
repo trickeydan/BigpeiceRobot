@@ -29,15 +29,15 @@ class Wheels(object):
         self.R.motors[self.left].target = 0
         self.R.motors[self.right].target = 0
 
-    def _clockwise(self,power,secs,both):
+    def _clockwise(self,power,secs):
         self.R.motors[self.left].target = power
         self.R.motors[self.right].target = -power
         sleep(secs)
         self.R.motors[self.left].target = 0
         self.R.motors[self.right].target = 0
 
-    def _anticlockwise(self,power,secs,both = True):
-        self.clockwise(-power,secs,both)
+    def _anticlockwise(self,power,secs):
+        self.clockwise(-power,secs)
 
     def stop(self):
         self.R.motors[self.left].target = 0
