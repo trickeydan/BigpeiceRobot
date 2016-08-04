@@ -123,6 +123,12 @@ class Vision(object):
 
         return target
 
+    def get_poison(self):
+        for marker in self.markers:
+            if marker.info.marker_type == MARKER_POISON: #CHECK ME!
+                return marker
+
+
 
         
 class Navigation(Motion):
@@ -355,7 +361,10 @@ class Control(object):
             self.victory()
 
     def victory(self):
-        print "FINISH"
+        print "FINISH - Performing Victory Dance"
+        self.R.motion.clockwise(5)
+        time.sleep(0.1)
+        self.R.motion.anticlockwise(5)
         exit()
 
 def log(message):
@@ -389,7 +398,7 @@ R.motion.anticlockwise(90)
 
 
 
-while R.cubecount <= 6 or C.time_left() > 60:
+while R.cubecount <= 6 and C.time_left() > 60:
     R.eyes.update()
     target = R.eyes.closest_token()
     log("Targeting: " + str(target.info.offset))
@@ -417,5 +426,41 @@ R.motion.reverse(2)
 R.arm.close()
 
 #Scan for poison
-print "FUCK WE FORGOT HOW TO HUNT THE POISON!"
+
+R.eyes.update()
+poison_token = R.eyes.get_poison()
+if poison_token != None:
+    x,y = R.motion.check_location()
+    angle = R.motion.check_angle()
+    poison_angle = angle+poison_token.rot_y
+    horizontal_distance = math.cos(math.radians(poison_token.centre.polar.rot_x)) * poison_token.dist # calculate position of poison
+    poison_x = x-math.sin(math.radians(poison_angle))*horizontal_distance
+    poison_y = y+math.cos(math.radians(poison_angle))*horizontal_distance
+    if (poison_y > 6-poison_x) and (poison_x<4) and (poison_y < 4)):#if poison token is in zone
+        R.motion.clockwise(poison_token.rot_y)
+        R.motion.forward(poison_token.dist /2)
+        halfway_distance = poison_token.dist /2
+        R.eyes.update()
+        poison_token = R.eyes.get_poison()
+        if poison_token != None:
+            R.motion.clockwise(poison_token.rot_y)
+            R.motion.forward(poison_token.dist + 2)
+        else:
+            print "Oh sh*t, the poison is in our zone and we can't see it"
+            R.motion.forward(halfway_distance +2)
+
+    else:
+        pass
+    
+    
+else:
+    pass
+
+C.victory()
+
+
+
+
+
+
 
