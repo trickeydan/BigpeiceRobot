@@ -11,6 +11,7 @@ class CRobot(object):
         self.leftSensor = Digital(leftPin,self.R)
         self.rightSensor = Digital(rightPin,self.R)
         self.arm = Arm(armBoard,armNumber,self.R)
+        self.cubecount = 0
 
     
 
@@ -22,7 +23,7 @@ class Wheels(object):
         self.right = right
 
     def _forward(self,secs,power):
-        self.R.motors[self.left].target = power
+        self.R.motors[self.left].target = power *1.2
         self.R.motors[self.right].target = power
         sleep(secs)
         self.R.motors[self.left].target = 0
@@ -47,9 +48,9 @@ class Wheels(object):
 
 class Motion(Wheels):
 
-    driveConstant = 0.6
+    driveConstant = 1.8
     drivePower = 25
-    turnConstant = 0.015
+    turnConstant = 0.17
 
     def forward(self,metres):
         log("Forward " + str(metres) + " metres")
@@ -66,6 +67,14 @@ class Motion(Wheels):
     def anticlockwise(self,degrees):
         log("Anti-clockwise " + str(degrees) + " degrees")
         self._anticlockwise(self.drivePower,degrees * self.turnConstant)
+
+    def move_till_beam_hit(self,extra,max):
+        raise Exception('Not Implemented: Move till beam hit')
+        return bool
+
+    def go_to_score_zone(self):
+        raise Exception('Not Implemented yet: Go to zone')
+
 
 
 class Vision(object):
@@ -107,7 +116,7 @@ class Vision(object):
             return closest
 
     def get_token_by_offset(self,number):
-        pass
+        raise Exception('Not Implemented: Get Token by offset')
 
     def check_location(self):
         log("Getting location")
@@ -228,14 +237,14 @@ class Control(object):
         return self.end_time - time.time()
 
     def loop(self):
-        self.check_sensors()
+        #print "WARNING! Bigpeice.Control.check_sensors is disabled!"
+        #self.check_sensors()
         self.time_check()
 
 
     def check_sensors(self):
-        if self.R.leftSensor.input() or self.R.leftSensor.input():
-            R.motion.stop()
-            pass
+
+        raise Exception('Not Implemented: Check Sensors')
 
     def time_check(self):
         if self.time_left() <= 0:
@@ -243,6 +252,7 @@ class Control(object):
 
     def victory(self):
         print "FINISH"
+        exit()
 
 def log(message):
         if verbose:
@@ -268,12 +278,45 @@ print "Started"
 R.arm.open()
 sleep(3)
 R.arm.close()
+sleep(1)
+R.arm.open()
 
+R.motion.clockwise(45)
+R.motion.forward(2)
+
+R.eyes.update()
+print "WALL MARKERS"
+markers = R.eyes.get_wall_markers()
+print len(markers)
+for marker in markers:
+    print str(marker.dist) + " @ " + str(marker.rot_y)
+
+print "TOKENS"
+markers  = R.eyes.get_tokens()
+print len(markers)
+for marker in markers:
+    print str(marker.dist) + " @ " + str(marker.rot_y)
+
+prevValue = 0
+count = 0
 while True:
-    print R.lightbeam.analogue()
+    value = R.lightbeam.analogue()
+    if value == prevValue:
+        count += 1
+    else:
+        prevValue = value
+        count = 0
+
+    if count >= 100:
+        print "100 consecutive values found"
+        sleep(5)
 
 
-# Actual Code, not yet tested. Do not execute!
+
+    sleep(0.01)
+
+
+# Actual Code, not yet tested. Do not execute! Turn on check_sensors first!
 exit() # Prevent execution
 
 verbose = TRue
@@ -291,16 +334,17 @@ log("Starting Algorithm")
 #Start Algorithm
 
 R.arm.open()
-R.motion.clockwise(90)
+R.motion.clockwise(45)
 R.motion.forward(2)  #Get initial tokens
 R.arm.close()
+R.cubecount += 4
 R.motion.anticlockwise(90)
 
 sleep(0.5) # Wait to reduce motion blur
 
 R.eyes.update() # Get new visionary data
 
-while True: #!! Check Condition
+while R.cubecount <= 6 or C.time_left() > 30:
     target = R.eyes.closest_token()
     log("Targeting: " + str(target.info.offset))
     R.motion.clockwise(target.rot_y)
@@ -309,6 +353,22 @@ while True: #!! Check Condition
     R.eyes.update()
     target = R.eyes.get_token_by_offset(target.info.offset)
     if target == None:
-        pass # Todo
+        raise Exception('No target found, not implemented')
+    else:
+        #Target found, adjust
+        R.motion.clockwise(target.rot_y)
+        R.arm.open()
+        hit = R.motion.move_till_beam_hit(0.4,target.dist * 2)
+        if not hit:
+            raise Exception('Not Implemented: Cube not caught')
+        R.cubecount += 1
+        R.arm.close()
+
+R.arm.close()
+R.motion.go_to_score_zone()
+R.motion.reverse(2)
+R.arm.close()
+
+#Scan for poison
 
 
