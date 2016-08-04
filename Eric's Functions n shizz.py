@@ -38,20 +38,6 @@ def getAngleToPoint(x_landmark, y_landmark):
     def navigate_to_zone(self):
         x,y = self.check_location()
         angle = self.check_angle()
-        # if zone == 0:
-        #     pass #dont need to do anything
-        # elif zone == 1:
-        #     temp = y
-        #     y = x
-        #     x = 8 - temp
-        # elif zone == 2:
-        #     x = 8 - x
-        #     y = y - x
-        # elif zone == 3:
-        #     temp = y
-        #     y = 8 - x
-        #     x = temp
-
 
         if x > y and y > 8-x:#if the bot is almost directly opposite scoring zone, but more towards the anticlockwise
             target = [6,2]
