@@ -165,10 +165,10 @@ class BaseIO(object):
         self.R = robot
 
     def input(self):
-        if type(self) is "Analogue":
-            return self.R.io[0].input[self.pin].a
-        else:
-            return self.R.io[0].input[self.pin].d
+        return self.R.io[0].input[self.pin].d
+
+    def analogue(self):
+        return self.R.io[0].input[self.pin].a
 
 Analogue = BaseIO
 
@@ -270,8 +270,7 @@ sleep(3)
 R.arm.close()
 
 while True:
-    R.motion.forward(4)
-    R.motion.clockwise(90)
+    print R.lightbeam.analogue()
 
 
 # Actual Code, not yet tested. Do not execute!
