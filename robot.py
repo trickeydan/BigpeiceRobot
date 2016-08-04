@@ -118,6 +118,7 @@ class Vision(object):
                             [8,1],[8,2],[8,3],[8,4],[8,5],[8,6],[8,7],
                             [1,8],[2,8],[3,8],[4,8],[5,8],[6,8],[7,8],]
         total_cartesian = [0,0]
+        
         for marker in wall_markers:
             horizontal_distance = math.cos(math.radians(marker.centre.polar.rot_x))* marker.dist
             if marker.info.offset in range(8):
@@ -137,6 +138,25 @@ class Vision(object):
 
         return total_cartesian[0]/number_of_visible_wall_markers, total_cartesian[1]/number_of_visible_wall_markers
 
+    def check_angle(self):
+        log("Getting angle")
+        self.update()
+        wall_markers = self.get_wall_markers()
+
+        marker = wall_marker[0]
+        if marker.info.offset in range(8):
+            angle = marker.orientation.rot_z + 180
+        elif marker.info.offset in range(8,15):
+            angle = marker.orientation.rot_z + 270
+        elif marker.info.offset in range(15,22):
+            angle = marker.orientation.rot_z + 360
+        elif marker.info.offset in range(22,28):
+            angle = marker.orientation.rot_z + 450
+        angle -= marker.rot_y
+        if angle > 360:
+            angle -= 360
+        return angle
+        
 
 class BaseIO(object):
 
