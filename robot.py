@@ -110,6 +110,8 @@ class Vision(object):
                     closest = token
 
             return closest
+        else:
+            return None
 
     def get_token_by_offset(self,number):
         tokens = self.get_tokens()
@@ -386,30 +388,27 @@ R.cubecount += 4
 R.motion.anticlockwise(90)
 
 
-R.eyes.update() # Get new visionary data
 
-while R.cubecount <= 6 or C.time_left() > 30:
-    target = R.eyes.closest_token()
-    if target == None:
-        # Rotate and look elsewhere
-        raise Exception('No target found, not implemented')
-    log("Targeting: " + str(target.info.offset))
-    R.motion.clockwise(target.rot_y)
-    R.motion.forward(target.dist/2)
+while R.cubecount <= 6 or C.time_left() > 60:
     R.eyes.update()
-    target = R.eyes.get_token_by_offset(target.info.offset)
-    if target == None:
-        # 
-        raise Exception('No target found, not implemented')
-    else:
-        #Target found, adjust
+    target = R.eyes.closest_token()
+    log("Targeting: " + str(target.info.offset))
+    if target != None and isinstance(target,Marker):
         R.motion.clockwise(target.rot_y)
-        R.arm.open()
-        R.motion.forward(target.dist* 2)
-        #hit = R.motion.move_till_beam_hit(0.4,target.dist * 2)
-        #Assume cube is caught
-        R.cubecount += 1
-        R.arm.close()
+        R.motion.forward(target.dist/2)
+        R.eyes.update()
+        new_target = get_token_by_offset(target.info.offset)
+        if new_target != None:
+            R.motion.clockwise(new_target.rot_y)
+            R.arm.open()
+            R.motion.forward(new_target.dist* 2)
+            R.cubecount += 1
+            R.arm.close()
+    else:
+        R.motion.clockwise(90)
+
+
+
 
 R.arm.close()
 R.motion.navigate_to_zone()
