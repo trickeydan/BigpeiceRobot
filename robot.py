@@ -11,7 +11,6 @@ class CRobot(object):
         self.leftSensor = Digital(leftPin,self.R)
         self.rightSensor = Digital(rightPin,self.R)
         self.arm = Arm(armBoard,armNumber,self.R)
-        self.c = Control(self.R)
 
     
 
@@ -25,7 +24,7 @@ class Wheels(object):
     def _forward(self,secs,power):
         self.R.motors[self.left].target = power
         self.R.motors[self.right].target = power
-        time.sleep(secs)
+        sleep(secs)
         self.R.motors[self.left].target = 0
         self.R.motors[self.right].target = 0
 
@@ -33,7 +32,7 @@ class Wheels(object):
         self.R.motors[self.left].target = power
         if both:
             self.R.motors[self.left].target = -power
-        time.sleep(secs)
+        sleep(secs)
         self.R.motors[self.left].target = 0
         if both:
             self.R.motors[self.left].target = 0
@@ -221,24 +220,29 @@ class Control(object):
 def log(message):
         if verbose:
             print "     " + message
+            
+            
+def sleep(secs):
+    C.sleep(secs)
 
 verbose = True
 
 print "The Bigpeice"
 print "Designed & Built by Bigpeice"
-print "Code © Bigpeice 2016. All rights reserved. Do not reuse without explicit permission"
+print "Code Copyright Bigpeice 2016. All rights reserved. Do not reuse without explicit permission"
 
 print "Initialising..."
 R = CRobot(0, 1, 10, 10, 10, 0, 0)
+C = Control(R)
 print "Zone: " + str(R.R.zone)
 #print "Mode: " + str(R.R.mode) #Doesn't work on simulator
 print "Started"
 
 while True:
     R.arm.close()
-    R.c.sleep(random.randint(1,10))
+    sleep(random.randint(1,10))
     R.arm.open()
-    R.c.sleep(random.randint(1,10))
+    sleep(random.randint(1,10))
 
 
 # Actual Code, not yet tested. Do not execute!
@@ -264,7 +268,7 @@ R.motion.forward(2)  #Get initial tokens
 R.arm.close()
 R.motion.anticlockwise(90)
 
-R.c.sleep(0.5) # Wait to reduce motion blur
+sleep(0.5) # Wait to reduce motion blur
 
 R.eyes.update() # Get new visionary data
 
