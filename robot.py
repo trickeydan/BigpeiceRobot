@@ -23,7 +23,7 @@ class Wheels(object):
         self.right = right
 
     def _forward(self,secs,power):
-        self.R.motors[self.left].target = power * 1.15
+        self.R.motors[self.left].target = power * 1.5
         self.R.motors[self.right].target = power
         sleep(secs)
         self.R.motors[self.left].target = 0
@@ -37,7 +37,7 @@ class Wheels(object):
         self.R.motors[self.right].target = 0
 
     def _anticlockwise(self,power,secs):
-        self.clockwise(-power,secs)
+        self._clockwise(-power,secs)
 
     def stop(self):
         self.R.motors[self.left].target = 0
@@ -48,7 +48,7 @@ class Motion(Wheels):
 
     driveConstant = 1.8
     drivePower = 25
-    turnConstant = 0.0060714285714286
+    turnConstant = 0.0070714285714286
 
     def forward(self,metres):
         log("Forward " + str(metres) + " metres")
