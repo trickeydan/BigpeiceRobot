@@ -116,54 +116,141 @@ class Vision(object):
     def get_token_by_offset(self,number):
         raise Exception('Not Implemented: Get Token by offset')
 
+
+        
+class Navigation(Motion):
+
+    
+    def getAngleToPoint(self,x_landmark, y_landmark):
+        x_orig,y_orig = self.check_location()
+        deltaY = y_landmark - y_orig
+        deltaX = x_landmark - x_orig
+        
+        if deltaY == 0:
+            if deltaX > 0:
+                angle = 270
+            elif deltaX < 0:
+                angle = 90
+            else:
+                angle = 0
+
+        elif deltaX == 0:
+            if deltaY > 0:
+                angle = 180
+            else:
+                angle = 0
+        else:
+            angle = math.degrees(math.atan(deltaX/deltaY))
+            if deltaX > 0:
+                angle = angle +270
+            elif deltaX < 0:
+                angle = angle +90
+
+
+        return angle
+
     def check_location(self):
         log("Getting location")
-        self.update()
-        wall_markers = self.get_wall_markers()
-        marker_positions = [[0,1],[0,2],[0,3],[0,4],[0,5],[0,6],[0,7],\
-                            [1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],\
-                            [8,1],[8,2],[8,3],[8,4],[8,5],[8,6],[8,7],
-                            [1,8],[2,8],[3,8],[4,8],[5,8],[6,8],[7,8],]
-        total_cartesian = [0,0]
-        
-        for marker in wall_markers:
-            horizontal_distance = math.cos(math.radians(marker.centre.polar.rot_x))* marker.dist
-            if marker.info.offset in range(8):
-                angle = marker.orientation.rot_z + 0
-            elif marker.info.offset in range(8,15):
-                angle = marker.orientation.rot_z + 90
-            elif marker.info.offset in range(15,22):
-                angle = marker.orientation.rot_z + 180
-            elif marker.info.offset in range(22,28):
-                angle = marker.orientation.rot_z + 270
+        wall_markers = self.R.eyes.get_wall_markers()
+        marker_positions = [[[0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7], \
+                             [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], \
+                             [8, 1], [8, 2], [8, 3], [8, 4], [8, 5], [8, 6], [8, 7], \
+                             [1, 8], [2, 8], [3, 8], [4, 8], [5, 8], [6, 8], [7, 8]], \
+    \
+                            [[1, 8], [2, 8], [3, 8], [4, 8], [5, 8], [6, 8], [7, 8] \
+                                [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7], \
+                             [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], \
+                             [8, 1], [8, 2], [8, 3], [8, 4], [8, 5], [8, 6], [8, 7]], \
+    \
+                            [[8, 1], [8, 2], [8, 3], [8, 4], [8, 5], [8, 6], [8, 7], \
+                             [1, 8], [2, 8], [3, 8], [4, 8], [5, 8], [6, 8], [7, 8], \
+                             [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7], \
+                             [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0]], \
+    \
+                            [[1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], \
+                             [8, 1], [8, 2], [8, 3], [8, 4], [8, 5], [8, 6], [8, 7], \
+                             [1, 8], [2, 8], [3, 8], [4, 8], [5, 8], [6, 8], [7, 8], \
+                             [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7]], \
+    \
+                            ]
+        total_cartesian = [0, 0]
 
-            total_cartesian[0] += marker_positions[marker.info.offset][0]+\
-                                  (math.sin(math.radians(angle))*horizontal_distance)
-            total_cartesian[1] += marker_positions[marker.info.offset][1]+\
-                                  (math.cos(math.radians(angle))*horizontal_distance)
+        for marker in wall_markers:
+            horizontal_distance = math.cos(math.radians(marker.centre.polar.rot_x)) * marker.dist
+            if marker.info.offset in range(7):
+                angle = marker.orientation.rot_z + 0
+            elif marker.info.offset in range(7, 14):
+                angle = marker.orientation.rot_z + 90
+            elif marker.info.offset in range(14, 21):
+                angle = marker.orientation.rot_z + 180
+            elif marker.info.offset in range(21, 28):
+                angle = marker.orientation.rot_z + 270
+            angle = angle + (90 * zone)
+
+            total_cartesian[0] += marker_positions[marker.info.offset][zone][0] + \
+                                  (math.sin(math.radians(angle)) * horizontal_distance)
+            total_cartesian[1] += marker_positions[marker.info.offset][zone][1] + \
+                                  (math.cos(math.radians(angle)) * horizontal_distance)
         number_of_visible_wall_markers = len(wall_markers)
 
-        return total_cartesian[0]/number_of_visible_wall_markers, total_cartesian[1]/number_of_visible_wall_markers
-
+        return total_cartesian[0] / number_of_visible_wall_markers, total_cartesian[
+            1] / number_of_visible_wall_markers
+    
     def check_angle(self):
         log("Getting angle")
-        self.update()
-        wall_markers = self.get_wall_markers()
+        
+        wall_markers = self.R.eyes.get_wall_markers()
 
         marker = wall_marker[0]
-        if marker.info.offset in range(8):
+        if marker.info.offset in range(7):
             angle = marker.orientation.rot_z + 180
-        elif marker.info.offset in range(8,15):
+        elif marker.info.offset in range(7, 14):
             angle = marker.orientation.rot_z + 270
-        elif marker.info.offset in range(15,22):
+        elif marker.info.offset in range(16, 21):
             angle = marker.orientation.rot_z + 360
-        elif marker.info.offset in range(22,28):
+        elif marker.info.offset in range(21, 28):
             angle = marker.orientation.rot_z + 450
         angle -= marker.rot_y
-        if angle > 360:
+        angle = angle + (90 * zone)
+
+        while angle > 360:
             angle -= 360
         return angle
-        
+
+    def in_score_zone(self):
+        x,y = self.check_location()
+        return (y > 6-x) and (x<4) and (y < 4))
+
+    def navigate_to_zone(self):
+        self.R.eyes.update()
+        x,y = self.check_location()
+        angle = self.check_angle()
+
+        if x > y and y > 8-x:#if the bot is almost directly opposite scoring zone, but more towards the anticlockwise
+            target = [6,2]
+            
+        elif y >= x and y > 8-x:#same as above, but closer to clockwise
+            target = [2,6]
+
+        elif y <= 8-x and (y > 4 or x > 4):#if not in top-left quadrant or bottom-right half
+            target = [2,2]
+
+        elif y <= 4 and x <= 4:#if in top left, point to the centre
+            target = [3,3]
+
+            
+        angle_to_turn = getAngleToPoint(target[0],target[1]) - angle
+        distance_to_go = math.sqrt(((x-target[0])^2)+((y-target[1])^2))+0.1
+        while angle_to_turn < 0:
+            angle_to_turn + 360
+
+        if angle_to_turn < 180:
+            self.clockwise(angle_to_turn)
+        else:
+            self.anticlockwise(360-angle_to_turn)
+
+        self.forward(distance_to_go)
+
 
 class BaseIO(object):
 
@@ -260,80 +347,22 @@ def log(message):
 def sleep(secs):
     C.sleep(secs)
 
-verbose = False
+verbose = True
+
 
 print "The Bigpeice"
 print "Designed & Built by Bigpeice"
 print "Code Copyright Bigpeice 2016. All rights reserved. Do not reuse without explicit permission"
 
 print "Initialising..."
-R = CRobot(0, 1, 2, 0, 1, 0, 0)
-C = Control(R)
-print "Zone: " + str(R.R.zone)
-#print "Mode: " + str(R.R.mode) #Doesn't work on simulator
-print "Started"
-
-R.arm.open()
-sleep(3)
-R.arm.close()
-sleep(1)
-R.arm.open()
-
-R.motion.clockwise(45)
-R.motion.forward(2)
-R.motion.anticlockwise(90)
-
-R.eyes.update()
-print "WALL MARKERS"
-markers = R.eyes.get_wall_markers()
-print len(markers)
-for marker in markers:
-    print str(marker.dist) + " @ " + str(marker.rot_y)
-
-print "TOKENS"
-markers  = R.eyes.get_tokens()
-print len(markers)
-for marker in markers:
-    print str(marker.dist) + " @ " + str(marker.rot_y)
-
-prevValue = 0
-count = 0
-while True:
-    value = R.lightbeam.analogue()
-    if value == prevValue:
-        count += 1
-    else:
-        prevValue = value
-        count = 0
-
-    if count >= 100:
-        print "100 consecutive values found"
-        sleep(5)
-
-
-
-    sleep(0.01)
-
-
-# Actual Code, not yet tested. Do not execute! Turn on check_sensors first!
-exit() # Prevent execution
-
-verbose = TRue
-
-
-print "The Bigpeice"
-print "Designed & Built by Bigpeice"
-#print "Code Copyright Bigpeice 2016. All rights reserved. Do not reuse without explicit permission"
-
-print "Initialising..."
 R = CRobot(0, 1, 10, 10, 10, 0, 0)
 print "Zone: " + str(R.R.zone)
-#print "Mode: " + str(R.R.mode) #Doesn't work on simulator
+print "Mode: " + str(R.R.mode) #Doesn't work on simulator
 log("Starting Algorithm")
 #Start Algorithm
 
 R.arm.open()
-R.motion.clockwise(45)
+#R.motion.clockwise(45)
 R.motion.forward(2)  #Get initial tokens
 R.arm.close()
 R.cubecount += 4
