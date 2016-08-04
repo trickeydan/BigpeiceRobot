@@ -7,7 +7,7 @@ class CRobot(object):
         self.R = Robot()
         self.motion = Navigation(leftWheel,rightWheel,self.R)
         self.eyes = Vision(self.R)
-        self.lightbeam = Digital(beamPin,self.R)
+        #self.lightbeam = Digital(beamPin,self.R)
         self.leftSensor = Digital(leftPin,self.R)
         self.rightSensor = Digital(rightPin,self.R)
         self.arm = Arm(armBoard,armNumber,self.R)
@@ -66,9 +66,6 @@ class Motion(Wheels):
         log("Anti-clockwise " + str(degrees) + " degrees")
         self._anticlockwise(self.drivePower,degrees * self.turnConstant)
 
-    def move_till_beam_hit(self,extra,max):
-        raise Exception('Not Implemented: Move till beam hit')
-        return bool
 
 
 
