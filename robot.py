@@ -5,7 +5,7 @@ class CRobot(object):
 
     def __init__(self, leftWheel, rightWheel, beamPin, leftPin, rightPin, armBoard, armNumber):
         self.R = Robot()
-        self.motion = Motion(leftWheel,rightWheel,self.R)
+        self.motion = Navigation(leftWheel,rightWheel,self.R)
         self.eyes = Vision(self.R)
         self.lightbeam = Digital(beamPin,self.R)
         self.leftSensor = Digital(leftPin,self.R)
@@ -70,9 +70,6 @@ class Motion(Wheels):
         raise Exception('Not Implemented: Move till beam hit')
         return bool
 
-    def go_to_score_zone(self):
-        raise Exception('Not Implemented yet: Go to zone')
-
 
 
 class Vision(object):
@@ -83,6 +80,7 @@ class Vision(object):
 
     def update(self):
         log("Checking Vision")
+        sleep(0.5) # Wait to reduce motion blur
         self.markers = self.R.see()
 
     def get_wall_markers(self):
@@ -187,9 +185,9 @@ class Navigation(Motion):
                 angle = marker.orientation.rot_z + 270
             angle = angle + (90 * zone)
 
-            total_cartesian[0] += marker_positions[marker.info.offset][zone][0] + \
+            total_cartesian[0] += marker_positions[marker.info.offset][self.R.zone][0] + \
                                   (math.sin(math.radians(angle)) * horizontal_distance)
-            total_cartesian[1] += marker_positions[marker.info.offset][zone][1] + \
+            total_cartesian[1] += marker_positions[marker.info.offset][self.R.zone][1] + \
                                   (math.cos(math.radians(angle)) * horizontal_distance)
         number_of_visible_wall_markers = len(wall_markers)
 
@@ -211,7 +209,7 @@ class Navigation(Motion):
         elif marker.info.offset in range(21, 28):
             angle = marker.orientation.rot_z + 450
         angle -= marker.rot_y
-        angle = angle + (90 * zone)
+        angle = angle + (90 * self.R.zone)
 
         while angle > 360:
             angle -= 360
@@ -322,8 +320,7 @@ class Control(object):
         return self.end_time - time.time()
 
     def loop(self):
-        #print "WARNING! Bigpeice.Control.check_sensors is disabled!"
-        #self.check_sensors()
+        self.check_sensors()
         self.time_check()
 
 
@@ -368,32 +365,35 @@ R.arm.close()
 R.cubecount += 4
 R.motion.anticlockwise(90)
 
-sleep(0.5) # Wait to reduce motion blur
 
 R.eyes.update() # Get new visionary data
 
 while R.cubecount <= 6 or C.time_left() > 30:
     target = R.eyes.closest_token()
+    if target == None:
+        # Rotate and look elsewhere
+        raise Exception('No target found, not implemented')
     log("Targeting: " + str(target.info.offset))
     R.motion.clockwise(target.rot_y)
     R.motion.forward(target.dist/2)
-    sleep(0.5)
     R.eyes.update()
     target = R.eyes.get_token_by_offset(target.info.offset)
     if target == None:
+        # 
         raise Exception('No target found, not implemented')
     else:
         #Target found, adjust
         R.motion.clockwise(target.rot_y)
         R.arm.open()
-        hit = R.motion.move_till_beam_hit(0.4,target.dist * 2)
-        if not hit:
-            raise Exception('Not Implemented: Cube not caught')
+        R.motion.forward(target.dist* 2)
+        #hit = R.motion.move_till_beam_hit(0.4,target.dist * 2)
+        #Assume cube is caught
         R.cubecount += 1
         R.arm.close()
 
 R.arm.close()
-R.motion.go_to_score_zone()
+R.motion.navigate_to_zone()
+R.arm.open()
 R.motion.reverse(2)
 R.arm.close()
 
