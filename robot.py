@@ -40,6 +40,10 @@ class Wheels(object):
     def _anticlockwise(self,power,secs,both = True):
         self.clockwise(-power,secs,both)
 
+    def stop(self):
+        self.R.motors[self.left].target = 0
+        self.R.motors[self.right].target = 0
+
 
 class Motion(Wheels):
 
@@ -102,6 +106,8 @@ class Vision(object):
 
             return closest
 
+    def get_token_by_offset(self,number):
+        pass
 
     def check_location(self):
         log("Getting location")
@@ -134,10 +140,9 @@ class Vision(object):
 
 class BaseIO(object):
 
-    def __init__(self,pin,robot,input = False):
+    def __init__(self,pin,robot):
         self.pin = pin
         self.R = robot
-        self.input = input
 
     def input(self):
         if type(self) is "Analogue":
@@ -208,7 +213,9 @@ class Control(object):
 
 
     def check_sensors(self):
-        pass
+        if self.R.leftSensor.input() or self.R.leftSensor.input():
+            R.motion.stop()
+            pass
 
     def time_check(self):
         if self.time_left() <= 0:
@@ -225,30 +232,32 @@ def log(message):
 def sleep(secs):
     C.sleep(secs)
 
-verbose = True
+verbose = False
 
 print "The Bigpeice"
 print "Designed & Built by Bigpeice"
 print "Code Copyright Bigpeice 2016. All rights reserved. Do not reuse without explicit permission"
 
 print "Initialising..."
-R = CRobot(0, 1, 10, 10, 10, 0, 0)
+R = CRobot(0, 1, 2, 0, 1, 0, 0)
 C = Control(R)
 print "Zone: " + str(R.R.zone)
 #print "Mode: " + str(R.R.mode) #Doesn't work on simulator
 print "Started"
 
+R.arm.open()
+sleep(3)
+R.arm.close()
+
 while True:
-    R.arm.close()
-    sleep(random.randint(1,10))
-    R.arm.open()
-    sleep(random.randint(1,10))
+    R.motion.forward(4)
+    R.motion.clockwise(90)
 
 
 # Actual Code, not yet tested. Do not execute!
 exit() # Prevent execution
 
-verbose = True
+verbose = TRue
 
 
 print "The Bigpeice"
@@ -273,6 +282,14 @@ sleep(0.5) # Wait to reduce motion blur
 R.eyes.update() # Get new visionary data
 
 while True: #!! Check Condition
-    closest = R.eyes.closest_token()
-    R.motion.clockwise(closest.rot_y)
+    target = R.eyes.closest_token()
+    log("Targeting: " + str(target.info.offset))
+    R.motion.clockwise(target.rot_y)
+    R.motion.forward(target.dist/2)
+    sleep(0.5)
+    R.eyes.update()
+    target = R.eyes.get_token_by_offset(target.info.offset)
+    if target == None:
+        pass # Todo
+
 
