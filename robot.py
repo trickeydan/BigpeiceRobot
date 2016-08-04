@@ -29,14 +29,12 @@ class Wheels(object):
         self.R.motors[self.left].target = 0
         self.R.motors[self.right].target = 0
 
-    def _clockwise(self,power,secs,both = True):
+    def _clockwise(self,power,secs,both):
         self.R.motors[self.left].target = power
-        if both:
-            self.R.motors[self.left].target = -power
+        self.R.motors[self.right].target = -power
         sleep(secs)
         self.R.motors[self.left].target = 0
-        if both:
-            self.R.motors[self.left].target = 0
+        self.R.motors[self.right].target = 0
 
     def _anticlockwise(self,power,secs,both = True):
         self.clockwise(-power,secs,both)
@@ -50,7 +48,7 @@ class Motion(Wheels):
 
     driveConstant = 1.8
     drivePower = 25
-    turnConstant = 0.145
+    turnConstant = 0.2
 
     def forward(self,metres):
         log("Forward " + str(metres) + " metres")
@@ -62,7 +60,7 @@ class Motion(Wheels):
 
     def clockwise(self,degrees):
         log("Clockwise " + str(degrees) + " degrees")
-        self._clockwise(self.drivePower,degrees * self.turnConstant)
+        self._clockwise(self.drivePower ,degrees * self.turnConstant)
 
     def anticlockwise(self,degrees):
         log("Anti-clockwise " + str(degrees) + " degrees")
@@ -283,6 +281,7 @@ R.arm.open()
 
 R.motion.clockwise(45)
 R.motion.forward(2)
+R.motion.anticlockwise(90)
 
 R.eyes.update()
 print "WALL MARKERS"
