@@ -84,6 +84,25 @@ class Vision(object):
 
         return wall_markers
 
+    def get_tokens(self):
+        log("Fetching last seen tokens")
+        tokens = []
+        for marker in self.markers:
+            if marker.info.marker_type == MARKER_TOKEN:
+                tokens.append(marker)
+
+        return tokens
+
+    def closest_token(self):
+        tokens = self.get_tokens()
+        if len(tokens) > 0:
+            closest = tokens[0]
+            for token in tokens:
+                if closest.dist > token.dist:
+                    closest = token
+
+            return closest
+
 
     def check_location(self):
         log("Getting location")
@@ -203,12 +222,11 @@ def log(message):
         if verbose:
             print "     " + message
 
-
 verbose = True
 
 print "The Bigpeice"
 print "Designed & Built by Bigpeice"
-print "Code Copyright Bigpeice 2016. All rights reserved. Do not reuse without explicit permission"
+print "Code © Bigpeice 2016. All rights reserved. Do not reuse without explicit permission"
 
 print "Initialising..."
 R = CRobot(0, 1, 10, 10, 10, 0, 0)
@@ -249,4 +267,8 @@ R.motion.anticlockwise(90)
 R.c.sleep(0.5) # Wait to reduce motion blur
 
 R.eyes.update() # Get new visionary data
+
+while True: #!! Check Condition
+    closest = R.eyes.closest_token()
+    R.motion.clockwise(closest.rot_y)
 
