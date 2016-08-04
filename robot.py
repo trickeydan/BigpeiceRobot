@@ -40,6 +40,7 @@ class Wheels(object):
         self._clockwise(-power,secs)
 
     def stop(self):
+        log("ESTOP")
         self.R.motors[self.left].target = 0
         self.R.motors[self.right].target = 0
 
@@ -99,6 +100,7 @@ class Vision(object):
         return tokens
 
     def closest_token(self):
+        log("Get Closest token")
         tokens = self.get_tokens()
         if len(tokens) > 0:
             closest = tokens[0]
@@ -111,6 +113,7 @@ class Vision(object):
             return None
 
     def get_token_by_offset(self,number):
+        log("Get token by offset")
         tokens = self.get_tokens()
         if len(tokens) > 0:
             target = None
@@ -121,6 +124,7 @@ class Vision(object):
         return target
 
     def get_poison(self):
+        log("Get poison")
         for marker in self.markers:
             if marker.info.marker_type == MARKER_POISON: #CHECK ME!
                 return marker
@@ -351,7 +355,7 @@ class Control(object):
             self.loop = True
             
             
-        raise Exception('Not Implemented: Check Sensors')
+        #raise Exception('Not Implemented: Check Sensors')
 
     def time_check(self):
         if self.time_left() <= 0:
