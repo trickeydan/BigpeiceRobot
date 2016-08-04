@@ -112,7 +112,14 @@ class Vision(object):
             return closest
 
     def get_token_by_offset(self,number):
-        raise Exception('Not Implemented: Get Token by offset')
+        tokens = self.get_tokens()
+        if len(tokens) > 0:
+            target = None
+            for token in tokens:
+                if target.info.offset = number:
+                    target = token
+
+        return target
 
 
         
