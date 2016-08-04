@@ -23,7 +23,7 @@ class Wheels(object):
         self.right = right
 
     def _forward(self,secs,power):
-        self.R.motors[self.left].target = power *1.2
+        self.R.motors[self.left].target = power * 1.13
         self.R.motors[self.right].target = power
         sleep(secs)
         self.R.motors[self.left].target = 0
@@ -50,7 +50,7 @@ class Motion(Wheels):
 
     driveConstant = 1.8
     drivePower = 25
-    turnConstant = 0.17
+    turnConstant = 0.145
 
     def forward(self,metres):
         log("Forward " + str(metres) + " metres")
@@ -370,5 +370,5 @@ R.motion.reverse(2)
 R.arm.close()
 
 #Scan for poison
-
+print "FUCK WE FORGOT HOW TO HUNT THE POISON!"
 
