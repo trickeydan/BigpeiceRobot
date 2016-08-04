@@ -315,13 +315,15 @@ class Control(object):
         self.R = robot
         self.start_time = time.time()
         self.end_time = time.time() + self.total_time
+        self.loop = True
 
     def sleep(self,secs):
         log("Wait: " + str(secs) + " secs")
         start = time.time()
         end = start + secs
         while end > time.time():
-            self.loop()
+            if self.loop:
+                self.loop()
 
     def time_left(self):
         return self.end_time - time.time()
@@ -332,7 +334,18 @@ class Control(object):
 
 
     def check_sensors(self):
-
+        if self.R.leftSensor.input() or self.R.rightSensor.input(): # Might not be returning bool, check
+            log("Sensors Hit")
+            self.R.motion.stop()
+            self.loop = False
+            sleep(0.2)
+            self.R.motion.reverse(0.8)
+            
+            self.R.motion.clockwise(180)
+            self.R.eyes.update()
+            self.loop = True
+            
+            
         raise Exception('Not Implemented: Check Sensors')
 
     def time_check(self):
