@@ -23,7 +23,7 @@ class Wheels(object):
         self.right = right
 
     def _forward(self,secs,power):
-        self.R.motors[self.left].target = power * 1.5
+        self.R.motors[self.left].target = power * 1.7
         self.R.motors[self.right].target = power
         sleep(secs)
         self.R.motors[self.left].target = 0
@@ -48,7 +48,7 @@ class Wheels(object):
 class Motion(Wheels):
 
     driveConstant = 1.8
-    drivePower = 25
+    drivePower = 18
     turnConstant = 0.0070714285714286
 
     def forward(self,metres):
@@ -115,8 +115,9 @@ class Vision(object):
     def get_token_by_offset(self,number):
         log("Get token by offset")
         tokens = self.get_tokens()
+        targetA = None
         if len(tokens) > 0:
-            targetA = None
+
             for token in tokens:
                 if token.info.offset == number:
                     targetA = token
@@ -403,7 +404,7 @@ R.motion.forward(1)
 
 
 
-while R.cubecount <= 6 and C.time_left() > 60:
+while R.cubecount <= 4 and C.time_left() > 60:
     R.eyes.update()
     target = R.eyes.closest_token()
     if target != None:
