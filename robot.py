@@ -74,7 +74,7 @@ class Vision(object):
 
     def __init__(self,robot):
         self.R = robot
-        self.update()
+        #self.update()
 
     def update(self):
         log("Checking Vision")
@@ -118,7 +118,7 @@ class Vision(object):
         if len(tokens) > 0:
             target = None
             for token in tokens:
-                if target.info.offset = number:
+                if target.info.offset == number:
                     target = token
 
         return target
@@ -233,7 +233,7 @@ class Navigation(Motion):
 
     def in_score_zone(self):
         x,y = self.check_location()
-        return (y > 6-x) and (x<4) and (y < 4))
+        return (y > 6-x) and (x<4) and (y < 4)
 
     def navigate_to_zone(self):
         self.R.eyes.update()
@@ -373,8 +373,7 @@ def log(message):
             print "     " + message
             
             
-def sleep(secs):
-    C.sleep(secs)
+
 
 verbose = True
 
@@ -385,11 +384,15 @@ print "Code Copyright Bigpeice 2016. All rights reserved. Do not reuse without e
 
 print "Initialising..."
 R = CRobot(0, 1, 10, 10, 10, 0, 0)
+C = Control(R)
 print "Zone: " + str(R.R.zone)
 print "Mode: " + str(R.R.mode) #Doesn't work on simulator
 log("Starting Algorithm")
 #Start Algorithm
 
+def sleep(secs):
+    C.sleep(secs)
+R.eyes.update()
 R.arm.open()
 #R.motion.clockwise(45)
 R.motion.forward(2)  #Get initial tokens
@@ -437,7 +440,7 @@ if poison_token != None:
     horizontal_distance = math.cos(math.radians(poison_token.centre.polar.rot_x)) * poison_token.dist # calculate position of poison
     poison_x = x-math.sin(math.radians(poison_angle))*horizontal_distance
     poison_y = y+math.cos(math.radians(poison_angle))*horizontal_distance
-    if (poison_y > 6-poison_x) and (poison_x<4) and (poison_y < 4)):#if poison token is in zone
+    if (poison_y > 6-poison_x) and (poison_x<4) and (poison_y < 4):#if poison token is in zone
         R.motion.clockwise(poison_token.rot_y)
         R.motion.forward(poison_token.dist /2)
         halfway_distance = poison_token.dist /2
