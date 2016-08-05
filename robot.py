@@ -116,17 +116,17 @@ class Vision(object):
         log("Get token by offset")
         tokens = self.get_tokens()
         if len(tokens) > 0:
-            target = None
+            targetA = None
             for token in tokens:
-                if target.info.offset == number:
-                    target = token
+                if token.info.offset == number:
+                    targetA = token
 
-        return target
+        return targetA
 
     def get_poison(self):
         log("Get poison")
         for marker in self.markers:
-            if marker.info.marker_type == MARKER_POISON: #CHECK ME!
+            if marker.info.marker_type == MARKER_POISON_TOKEN: #CHECK ME!
                 return marker
 
 
@@ -324,14 +324,14 @@ class Control(object):
         self.R = robot
         self.start_time = time.time()
         self.end_time = time.time() + self.total_time
-        self.loop = True
+        self.isloop = True
 
     def sleep(self,secs):
         log("Wait: " + str(secs) + " secs")
         start = time.time()
         end = start + secs
         while end > time.time():
-            if self.loop:
+            if self.isloop:
                 self.loop()
 
     def time_left(self):
@@ -346,13 +346,13 @@ class Control(object):
         if self.R.leftSensor.input() or self.R.rightSensor.input(): # Might not be returning bool, check
             log("Sensors Hit")
             self.R.motion.stop()
-            self.loop = False
+            self.isloop = False
             sleep(0.2)
             self.R.motion.reverse(0.8)
             
             self.R.motion.clockwise(180)
             self.R.eyes.update()
-            self.loop = True
+            self.isloop = True
             
             
         #raise Exception('Not Implemented: Check Sensors')
@@ -383,7 +383,7 @@ print "Designed & Built by Bigpeice"
 print "Code Copyright Bigpeice 2016. All rights reserved. Do not reuse without explicit permission"
 
 print "Initialising..."
-R = CRobot(0, 1, 10, 10, 10, 0, 0)
+R = CRobot(0, 1, 0, 0, 1, 0, 0)
 C = Control(R)
 print "Zone: " + str(R.R.zone)
 print "Mode: " + str(R.R.mode) #Doesn't work on simulator
@@ -399,18 +399,19 @@ R.motion.forward(2)  #Get initial tokens
 R.arm.close()
 R.cubecount += 4
 R.motion.anticlockwise(90)
+R.motion.forward(1)
 
 
 
 while R.cubecount <= 6 and C.time_left() > 60:
     R.eyes.update()
     target = R.eyes.closest_token()
-    log("Targeting: " + str(target.info.offset))
-    if target != None and isinstance(target,Marker):
+    if target != None:
+        log("Targeting: " + str(target.info.offset))
         R.motion.clockwise(target.rot_y)
         R.motion.forward(target.dist/2)
         R.eyes.update()
-        new_target = get_token_by_offset(target.info.offset)
+        new_target = R.eyes.get_token_by_offset(target.info.offset)
         if new_target != None:
             R.motion.clockwise(new_target.rot_y)
             R.arm.open()
